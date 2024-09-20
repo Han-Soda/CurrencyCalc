@@ -11,16 +11,12 @@
         }
 
         button:active {
-            transform: scale(0.95); /* Эффект уменьшения при нажатии */
-            box-shadow: none; /* Убираем тень */
+            transform: scale(0.95);
+            box-shadow: none;
         }
 
         button:hover {
-            filter: brightness(1.1); /* Подсвечивание кнопки при наведении */
-        }
-
-        .swap-btn {
-            margin-top: -8px;
+            filter: brightness(1.1);
         }
 
         .currency-select {
@@ -28,32 +24,44 @@
             align-items: center;
         }
 
-        .currency-flag {
-            width: 24px;
-            height: 16px;
+        .currency-select img {
+            width: 20px;
+            height: 20px;
             margin-right: 8px;
+        }
+
+        .swap-btn {
+            margin-top: -8px;
         }
     </style>
 </head>
 <body class="bg-gray-100 p-4">
     <div class="container mx-auto">
         <h1 class="text-xl font-bold text-center mb-4">Exchange Rate Difference Calculator</h1>
-
         <div class="mb-4">
             <label for="amountPaid" class="block">Amount Paid (in your currency):</label>
             <div class="flex items-center">
                 <input type="number" id="amountPaid" class="w-full p-2 border rounded" required>
-                <div class="currency-select ml-2 p-2 border rounded">
-                    <img id="flag1" src="https://flagcdn.com/w20/us.png" class="currency-flag" alt="Flag">
-                    <select id="currency1" class="ml-2 p-2 border rounded">
-                        <option value="USD" data-flag="https://flagcdn.com/w20/us.png">USD</option>
-                        <option value="EUR" data-flag="https://flagcdn.com/w20/eu.png">EUR</option>
-                        <option value="RUB" data-flag="https://flagcdn.com/w20/ru.png">RUB</option>
-                        <option value="UZS" data-flag="https://flagcdn.com/w20/uz.png">UZS</option>
-                        <option value="KZT" data-flag="https://flagcdn.com/w20/kz.png">KZT</option>
-                        <option value="KGS" data-flag="https://flagcdn.com/w20/kg.png">KGS</option>
-                    </select>
-                </div>
+                <select id="currency1" class="ml-2 p-2 border rounded">
+                    <option class="currency-select" value="USD">
+                        <img src="path_to_flags/us.svg" alt="USD Flag"> USD
+                    </option>
+                    <option class="currency-select" value="EUR">
+                        <img src="path_to_flags/eu.svg" alt="EUR Flag"> EUR
+                    </option>
+                    <option class="currency-select" value="RUB">
+                        <img src="path_to_flags/ru.svg" alt="RUB Flag"> RUB
+                    </option>
+                    <option class="currency-select" value="UZS">
+                        <img src="path_to_flags/uz.svg" alt="UZS Flag"> UZS
+                    </option>
+                    <option class="currency-select" value="KZT">
+                        <img src="path_to_flags/kz.svg" alt="KZT Flag"> KZT
+                    </option>
+                    <option class="currency-select" value="KGS">
+                        <img src="path_to_flags/kg.svg" alt="KGS Flag"> KGS
+                    </option>
+                </select>
             </div>
         </div>
 
@@ -65,17 +73,26 @@
             <label for="amountReceived" class="block">Amount Received (in foreign currency):</label>
             <div class="flex items-center">
                 <input type="number" id="amountReceived" class="w-full p-2 border rounded" required>
-                <div class="currency-select ml-2 p-2 border rounded">
-                    <img id="flag2" src="https://flagcdn.com/w20/us.png" class="currency-flag" alt="Flag">
-                    <select id="currency2" class="ml-2 p-2 border rounded">
-                        <option value="USD" data-flag="https://flagcdn.com/w20/us.png">USD</option>
-                        <option value="EUR" data-flag="https://flagcdn.com/w20/eu.png">EUR</option>
-                        <option value="RUB" data-flag="https://flagcdn.com/w20/ru.png">RUB</option>
-                        <option value="UZS" data-flag="https://flagcdn.com/w20/uz.png">UZS</option>
-                        <option value="KZT" data-flag="https://flagcdn.com/w20/kz.png">KZT</option>
-                        <option value="KGS" data-flag="https://flagcdn.com/w20/kg.png">KGS</option>
-                    </select>
-                </div>
+                <select id="currency2" class="ml-2 p-2 border rounded">
+                    <option class="currency-select" value="USD">
+                        <img src="path_to_flags/us.svg" alt="USD Flag"> USD
+                    </option>
+                    <option class="currency-select" value="EUR">
+                        <img src="path_to_flags/eu.svg" alt="EUR Flag"> EUR
+                    </option>
+                    <option class="currency-select" value="RUB">
+                        <img src="path_to_flags/ru.svg" alt="RUB Flag"> RUB
+                    </option>
+                    <option class="currency-select" value="UZS">
+                        <img src="path_to_flags/uz.svg" alt="UZS Flag"> UZS
+                    </option>
+                    <option class="currency-select" value="KZT">
+                        <img src="path_to_flags/kz.svg" alt="KZT Flag"> KZT
+                    </option>
+                    <option class="currency-select" value="KGS">
+                        <img src="path_to_flags/kg.svg" alt="KGS Flag"> KGS
+                    </option>
+                </select>
             </div>
         </div>
 
@@ -87,41 +104,14 @@
     </div>
 
     <script>
-        // Функция для смены флага при смене валюты
-        function updateFlag(selectElement, flagElement) {
-            const selectedOption = selectElement.options[selectElement.selectedIndex];
-            const flagUrl = selectedOption.getAttribute('data-flag');
-            flagElement.src = flagUrl;
-        }
-
-        // Обновляем флаги при выборе валюты
-        document.getElementById('currency1').addEventListener('change', function() {
-            updateFlag(this, document.getElementById('flag1'));
-        });
-
-        document.getElementById('currency2').addEventListener('change', function() {
-            updateFlag(this, document.getElementById('flag2'));
-        });
-
-        // Смена валют местами
         document.getElementById('swap').addEventListener('click', function() {
             const currency1 = document.getElementById('currency1');
             const currency2 = document.getElementById('currency2');
-            const flag1 = document.getElementById('flag1');
-            const flag2 = document.getElementById('flag2');
-
-            // Меняем значения валют
-            const tempCurrency = currency1.value;
+            const temp = currency1.value;
             currency1.value = currency2.value;
-            currency2.value = tempCurrency;
-
-            // Меняем флаги
-            const tempFlag = flag1.src;
-            flag1.src = flag2.src;
-            flag2.src = tempFlag;
+            currency2.value = temp;
         });
 
-        // Логика калькулятора
         document.getElementById('calculate').addEventListener('click', function() {
             const amountPaid = parseFloat(document.getElementById('amountPaid').value);
             const amountReceived = parseFloat(document.getElementById('amountReceived').value);
