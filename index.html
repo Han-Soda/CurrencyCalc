@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exchange Rate Difference Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.3/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        button {
+            transition: transform 0.1s ease, box-shadow 0.1s ease;
+        }
+
+        button:active {
+            transform: scale(0.95); /* Эффект уменьшения при нажатии */
+            box-shadow: none; /* Убираем тень */
+        }
+
+        button:hover {
+            filter: brightness(1.1); /* Подсвечивание кнопки при наведении */
+        }
+
+        .swap-btn {
+            margin-top: -8px;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 p-4">
+    <div class="container mx-auto">
+        <h1 class="text-xl font-bold text-center mb-4">Exchange Rate Difference Calculator</h1>
+        <div class="mb-4">
+            <label for="amountPaid" class="block">Amount Paid (in your currency):</label>
+            <div class="flex items-center">
+                <input type="number" id="amountPaid" class="w-full p-2 border rounded" required>
+                <select id="currency1" class="ml-2 p-2 border rounded">
+                    <option value="USD">USD</option>
+                    <option value="RUB">RUB</option>
+                    <option value="UZS">UZS</option>
+                    <option value="KZT">KZT</option>
+                    <option value="KGS">KGS</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="text-center mb-4 swap-btn">
+            <button id="swap" class="bg-yellow-500 text-white p-2 rounded">↔ Swap</button>
+        </div>
+
+        <div class="mb-4">
+            <label for="amountReceived" class="block">Amount Received (in foreign currency):</label>
+            <div class="flex items-center">
+                <input type="number" id="amountReceived" class="w-full p-2 border rounded" required>
+                <select id="currency2" class="ml-2 p-2 border rounded">
+                    <option value="USD">USD</option>
+                    <option value="RUB">RUB</option>
+                    <option value="UZS">UZS</option>
+                    <option value="KZT">KZT</option>
+                    <option value="KGS">KGS</option>
+                </select>
+            </div>
+        </div>
+
+        <button id="calculate" class="w-full bg-blue-500 text-white p-2 rounded">Calculate</button>
+        
+        <div id="results" class="mt-4">
+            <!-- Calculated results will be displayed here -->
+        </div>
+    </div>
+
+    <script>
+        // Смена валют местами
+        document.getElementById('swap').addEventListener('click', function() {
+            const currency1 = document.getElementById('currency1');
+            const currency2 = document.getElementById('currency2');
+            const temp = currency1.value;
+            currency1.value = currency2.value;
+            currency2.value = temp;
+        });
+
+        // Логика калькулятора
+        document.getElementById('calculate').addEventListener('click', function() {
+            const amountPaid = parseFloat(document.getElementById('amountPaid').value);
+            const amountReceived = parseFloat(document.getElementById('amountReceived').value);
+            const currency1 = document.getElementById('currency1').value;
+            const currency2 = document.getElementById('currency2').value;
+
+            const currencyPair = `${currency1}_${currency2}`;
+
+            fetch(`https://api.exchangerate-api.com/v4/latest/${currency1}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch exchange rates');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const officialRate = data.rates[currency2];
+                    calculateResults(amountPaid, amountReceived, officialRate);
+                })
+                .catch(error => {
+                    document.getElementById('results').innerHTML = `<p>Error: ${error.message}</p>`;
+                });
+        });
+
+        function calculateResults(amountPaid, amountReceived, officialRate) {
+            if (isNaN(amountPaid) || isNaN(amountReceived)) {
+                alert("Please enter valid numbers for amount paid and amount received.");
+                return;
+            }
+
+            if (officialRate === 0 || !officialRate) {
+                alert("Official rate cannot be zero.");
+                return;
+            }
+
+            const realSellingRate = amountReceived / amountPaid;
+            const percentDifferenceSelling = ((officialRate - realSellingRate) / officialRate) * 100;
+
+            const formattedRealSellingRate = realSellingRate.toFixed(8).replace(/\.?0+$/, "");
+            const formattedOfficialRate = officialRate.toFixed(8).replace(/\.?0+$/, "");
+            const formattedPercentDifferenceSelling = percentDifferenceSelling.toFixed(6);
+
+            let message = '';
+            if (percentDifferenceSelling < 0) {
+                message = "Wow! That was a great bargain! Either you just got the exchange rate or currency pair mixed up.";
+            }
+
+            document.getElementById('results').innerHTML = `
+                <p>Real Selling Rate: ${formattedRealSellingRate}</p>
+                <p>Official Rate: ${formattedOfficialRate}</p>
+                <p><strong style="font-size: 1.2em;">Percentage difference: ${formattedPercentDifferenceSelling}%</strong></p>
+                <p>${message}</p>
+            `;
+        }
+    </script>
+</body>
+</html>
