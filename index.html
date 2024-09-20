@@ -24,14 +24,13 @@
             align-items: center;
         }
 
-        .currency-select img {
-            width: 20px;
-            height: 20px;
-            margin-right: 8px;
-        }
-
         .swap-btn {
             margin-top: -8px;
+        }
+
+        .flag {
+            margin-right: 8px;
+            font-size: 1.2em; /* Увеличиваем размер флага */
         }
     </style>
 </head>
@@ -43,24 +42,12 @@
             <div class="flex items-center">
                 <input type="number" id="amountPaid" class="w-full p-2 border rounded" required>
                 <select id="currency1" class="ml-2 p-2 border rounded">
-                    <option class="currency-select" value="USD">
-                        <img src="path_to_flags/us.svg" alt="USD Flag"> USD
-                    </option>
-                    <option class="currency-select" value="EUR">
-                        <img src="path_to_flags/eu.svg" alt="EUR Flag"> EUR
-                    </option>
-                    <option class="currency-select" value="RUB">
-                        <img src="path_to_flags/ru.svg" alt="RUB Flag"> RUB
-                    </option>
-                    <option class="currency-select" value="UZS">
-                        <img src="path_to_flags/uz.svg" alt="UZS Flag"> UZS
-                    </option>
-                    <option class="currency-select" value="KZT">
-                        <img src="path_to_flags/kz.svg" alt="KZT Flag"> KZT
-                    </option>
-                    <option class="currency-select" value="KGS">
-                        <img src="path_to_flags/kg.svg" alt="KGS Flag"> KGS
-                    </option>
+                    <option value="USD">🇺🇸 USD</option>
+                    <option value="EUR">🇪🇺 EUR</option>
+                    <option value="RUB">🇷🇺 RUB</option>
+                    <option value="UZS">🇺🇿 UZS</option>
+                    <option value="KZT">🇰🇿 KZT</option>
+                    <option value="KGS">🇰🇬 KGS</option>
                 </select>
             </div>
         </div>
@@ -74,24 +61,12 @@
             <div class="flex items-center">
                 <input type="number" id="amountReceived" class="w-full p-2 border rounded" required>
                 <select id="currency2" class="ml-2 p-2 border rounded">
-                    <option class="currency-select" value="USD">
-                        <img src="path_to_flags/us.svg" alt="USD Flag"> USD
-                    </option>
-                    <option class="currency-select" value="EUR">
-                        <img src="path_to_flags/eu.svg" alt="EUR Flag"> EUR
-                    </option>
-                    <option class="currency-select" value="RUB">
-                        <img src="path_to_flags/ru.svg" alt="RUB Flag"> RUB
-                    </option>
-                    <option class="currency-select" value="UZS">
-                        <img src="path_to_flags/uz.svg" alt="UZS Flag"> UZS
-                    </option>
-                    <option class="currency-select" value="KZT">
-                        <img src="path_to_flags/kz.svg" alt="KZT Flag"> KZT
-                    </option>
-                    <option class="currency-select" value="KGS">
-                        <img src="path_to_flags/kg.svg" alt="KGS Flag"> KGS
-                    </option>
+                    <option value="USD">🇺🇸 USD</option>
+                    <option value="EUR">🇪🇺 EUR</option>
+                    <option value="RUB">🇷🇺 RUB</option>
+                    <option value="UZS">🇺🇿 UZS</option>
+                    <option value="KZT">🇰🇿 KZT</option>
+                    <option value="KGS">🇰🇬 KGS</option>
                 </select>
             </div>
         </div>
