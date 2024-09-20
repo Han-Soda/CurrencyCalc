@@ -16,12 +16,18 @@
         button:hover {
             filter: brightness(1.1);
         }
-        .swap-btn {
-            margin-top: -8px;
-        }
         #swap {
-            background-color: #55b0ff; /* Цвет кнопки */
-            color: white; /* Цвет текста */
+            background-color: #55b0ff;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px; /* Скруглённые углы */
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        .swap-icon {
+            margin: 0 0.5rem; /* Отступы для иконки */
         }
     </style>
 </head>
@@ -43,8 +49,10 @@
             </div>
         </div>
 
-        <div class="text-center mb-4 swap-btn">
-            <button id="swap">🔄 Swap</button>
+        <div class="text-center mb-4">
+            <button id="swap">
+                🔄 <span class="swap-icon">Swap</span>
+            </button>
         </div>
 
         <div class="mb-4">
