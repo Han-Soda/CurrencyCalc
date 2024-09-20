@@ -29,8 +29,9 @@
         }
 
         .flag {
-            margin-right: 8px;
-            font-size: 1.2em; /* Увеличиваем размер флага */
+            width: 24px; /* Устанавливаем ширину флага */
+            height: 16px; /* Устанавливаем высоту флага */
+            margin-right: 8px; /* Отступ между флагом и текстом */
         }
     </style>
 </head>
@@ -42,18 +43,18 @@
             <div class="flex items-center">
                 <input type="number" id="amountPaid" class="w-full p-2 border rounded" required>
                 <select id="currency1" class="ml-2 p-2 border rounded">
-                    <option value="USD">🇺🇸 USD</option>
-                    <option value="EUR">🇪🇺 EUR</option>
-                    <option value="RUB">🇷🇺 RUB</option>
-                    <option value="UZS">🇺🇿 UZS</option>
-                    <option value="KZT">🇰🇿 KZT</option>
-                    <option value="KGS">🇰🇬 KGS</option>
+                    <option value="USD">🇺🇸 <img class="flag" src="https://flagcdn.com/us.svg" alt="USD">USD</option>
+                    <option value="EUR">🇪🇺 <img class="flag" src="https://flagcdn.com/eu.svg" alt="EUR">EUR</option>
+                    <option value="RUB">🇷🇺 <img class="flag" src="https://flagcdn.com/ru.svg" alt="RUB">RUB</option>
+                    <option value="UZS">🇺🇿 <img class="flag" src="https://flagcdn.com/uz.svg" alt="UZS">UZS</option>
+                    <option value="KZT">🇰🇿 <img class="flag" src="https://flagcdn.com/kz.svg" alt="KZT">KZT</option>
+                    <option value="KGS">🇰🇬 <img class="flag" src="https://flagcdn.com/kg.svg" alt="KGS">KGS</option>
                 </select>
             </div>
         </div>
 
         <div class="text-center mb-4 swap-btn">
-            <button id="swap" class="bg-yellow-500 text-white p-2 rounded">🔄</button>
+            <button id="swap" class="bg-[#4da0ec] text-white p-2 rounded">🔄 Swap</button>
         </div>
 
         <div class="mb-4">
@@ -61,12 +62,12 @@
             <div class="flex items-center">
                 <input type="number" id="amountReceived" class="w-full p-2 border rounded" required>
                 <select id="currency2" class="ml-2 p-2 border rounded">
-                    <option value="USD">🇺🇸 USD</option>
-                    <option value="EUR">🇪🇺 EUR</option>
-                    <option value="RUB">🇷🇺 RUB</option>
-                    <option value="UZS">🇺🇿 UZS</option>
-                    <option value="KZT">🇰🇿 KZT</option>
-                    <option value="KGS">🇰🇬 KGS</option>
+                    <option value="USD">🇺🇸 <img class="flag" src="https://flagcdn.com/us.svg" alt="USD">USD</option>
+                    <option value="EUR">🇪🇺 <img class="flag" src="https://flagcdn.com/eu.svg" alt="EUR">EUR</option>
+                    <option value="RUB">🇷🇺 <img class="flag" src="https://flagcdn.com/ru.svg" alt="RUB">RUB</option>
+                    <option value="UZS">🇺🇿 <img class="flag" src="https://flagcdn.com/uz.svg" alt="UZS">UZS</option>
+                    <option value="KZT">🇰🇿 <img class="flag" src="https://flagcdn.com/kz.svg" alt="KZT">KZT</option>
+                    <option value="KGS">🇰🇬 <img class="flag" src="https://flagcdn.com/kg.svg" alt="KGS">KGS</option>
                 </select>
             </div>
         </div>
