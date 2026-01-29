@@ -1,139 +1,113 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exchange Rate Difference Calculator</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.3/dist/tailwind.min.css" rel="stylesheet">
-    <style>
-        button {
-            transition: transform 0.1s ease, box-shadow 0.1s ease;
-        }
-        button:active {
-            transform: scale(0.95);
-            box-shadow: none;
-        }
-        button:hover {
-            filter: brightness(1.1);
-        }
-        #swap {
-            background-color: #55b0ff;
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 9999px; /* Скруглённые углы */
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-        }
-        .swap-icon {
-            margin: 0 0.5rem; /* Отступы для иконки */
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Currency Converter</title>
+
+  <style>
+    body {
+      background: #f4f7fb;
+      padding: 20px;
+    }
+
+    .converter {
+      max-width: 420px;
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      font-family: system-ui, sans-serif;
+    }
+
+    .field {
+      display: flex;
+      gap: 8px;
+    }
+
+    input, select {
+      flex: 1;
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+    }
+
+    select {
+      cursor: pointer;
+    }
+
+    #swapBtn {
+      background: #55b0ff;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      padding: 14px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.15s ease, filter 0.15s ease;
+    }
+
+    #swapBtn:hover {
+      filter: brightness(1.08);
+    }
+
+    #swapBtn:active {
+      transform: scale(0.96);
+    }
+  </style>
 </head>
-<body class="bg-gray-100 p-4">
-    <div class="container mx-auto">
-        <h1 class="text-xl font-bold text-center mb-4">Exchange Rate Difference Calculator</h1>
-        <div class="mb-4">
-            <label for="amountPaid" class="block">Amount Paid:</label>
-            <div class="flex items-center">
-                <input type="number" id="amountPaid" class="w-full p-2 border rounded" required>
-                <select id="currency1" class="ml-2 p-2 border rounded">
-                    <option value="USD">🇺🇸 USD</option>
-                    <option value="RUB">🇷🇺 RUB</option>
-                    <option value="UZS">🇺🇿 UZS</option>
-                    <option value="KZT">🇰🇿 KZT</option>
-                    <option value="KGS">🇰🇬 KGS</option>
-                    <option value="EUR">🇪🇺 EUR</option>
-                    <option value="THB">🇹🇭 THB</option>
-                    <option value="VND">🇻🇳 VND</option> <!-- Добавлено VND -->
-                </select>
-            </div>
-        </div>
 
-        <div class="text-center mb-4">
-            <button id="swap">
-                🔄 <span class="swap-icon">Swap</span>
-            </button>
-        </div>
+<body>
 
-        <div class="mb-4">
-            <label for="amountReceived" class="block">Amount Received:</label>
-            <div class="flex items-center">
-                <input type="number" id="amountReceived" class="w-full p-2 border rounded" required>
-                <select id="currency2" class="ml-2 p-2 border rounded">
-                    <option value="USD">🇺🇸 USD</option>
-                    <option value="RUB">🇷🇺 RUB</option>
-                    <option value="UZS">🇺🇿 UZS</option>
-                    <option value="KZT">🇰🇿 KZT</option>
-                    <option value="KGS">🇰🇬 KGS</option>
-                    <option value="EUR">🇪🇺 EUR</option>
-                    <option value="THB">🇹🇭 THB</option>
-                    <option value="VND">🇻🇳 VND</option> <!-- Добавлено VND -->
-                </select>
-            </div>
-        </div>
-
-        <button id="calculate" class="w-full bg-blue-500 text-white p-2 rounded">Calculate</button>
-        
-        <div id="results" class="mt-4"></div>
+  <div class="converter">
+    <div class="field">
+      <input type="number" id="amountFrom" value="1">
+      <select id="currencyFrom"></select>
     </div>
 
-    <script>
-        document.getElementById('swap').addEventListener('click', function() {
-            const currency1 = document.getElementById('currency1');
-            const currency2 = document.getElementById('currency2');
-            const temp = currency1.value;
-            currency1.value = currency2.value;
-            currency2.value = temp;
-        });
+    <button id="swapBtn">🔁 Swap</button>
 
-        document.getElementById('calculate').addEventListener('click', function() {
-            const amountPaid = parseFloat(document.getElementById('amountPaid').value);
-            const amountReceived = parseFloat(document.getElementById('amountReceived').value);
-            const currency1 = document.getElementById('currency1').value;
-            const currency2 = document.getElementById('currency2').value;
+    <div class="field">
+      <input type="number" id="amountTo" readonly>
+      <select id="currencyTo"></select>
+    </div>
+  </div>
 
-            fetch(`https://api.exchangerate-api.com/v4/latest/${currency1}`)
-                .then(response => response.json())
-                .then(data => {
-                    const officialRate = data.rates[currency2];
-                    calculateResults(amountPaid, amountReceived, officialRate);
-                })
-                .catch(error => {
-                    document.getElementById('results').innerHTML = `<p>Error: ${error.message}</p>`;
-                });
-        });
+  <script>
+    const currencies = [
+      { code: "USD", emoji: "🇺🇸" },
+      { code: "EUR", emoji: "🇪🇺" },
+      { code: "RUB", emoji: "🇷🇺" },
+      { code: "KZT", emoji: "🇰🇿" },
+      { code: "UZS", emoji: "🇺🇿" },
+      { code: "KGS", emoji: "🇰🇬" },
+      { code: "VND", emoji: "🇻🇳" },
+      { code: "MYR", emoji: "🇲🇾" },
+      { code: "CNY", emoji: "🇨🇳" }
+    ];
 
-        function calculateResults(amountPaid, amountReceived, officialRate) {
-            if (isNaN(amountPaid) || isNaN(amountReceived)) {
-                alert("Please enter valid numbers.");
-                return;
-            }
-            if (!officialRate) {
-                alert("Official rate cannot be zero.");
-                return;
-            }
+    const from = document.getElementById("currencyFrom");
+    const to = document.getElementById("currencyTo");
 
-            const realSellingRate = amountReceived / amountPaid;
-            const percentDifferenceSelling = ((officialRate - realSellingRate) / officialRate) * 100;
+    currencies.forEach(c => {
+      const o1 = document.createElement("option");
+      o1.value = c.code;
+      o1.textContent = `${c.emoji} ${c.code}`;
+      from.appendChild(o1);
 
-            const formattedRealSellingRate = realSellingRate.toFixed(8).replace(/\.?0+$/, "");
-            const formattedOfficialRate = officialRate.toFixed(8).replace(/\.?0+$/, "");
-            const formattedPercentDifferenceSelling = percentDifferenceSelling.toFixed(6);
+      const o2 = o1.cloneNode(true);
+      to.appendChild(o2);
+    });
 
-            let message = '';
-            if (percentDifferenceSelling < 0) {
-                message = "Great bargain!";
-            }
+    from.value = "KZT";
+    to.value = "USD";
 
-            document.getElementById('results').innerHTML = `
-                <p>Real Selling Rate: ${formattedRealSellingRate}</p>
-                <p>Official Rate: ${formattedOfficialRate}</p>
-                <p><strong>Percentage difference: ${formattedPercentDifferenceSelling}%</strong></p>
-                <p>${message}</p>
-            `;
-        }
-    </script>
+    document.getElementById("swapBtn").onclick = () => {
+      [from.value, to.value] = [to.value, from.value];
+    };
+  </script>
+
 </body>
 </html>
